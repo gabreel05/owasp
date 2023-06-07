@@ -4,7 +4,16 @@ import MySQL from '@fastify/mysql'
 const server = fastify()
 
 server.register(MySQL, {
-  connectionString: 'mysql://hacker:aW50cnVkZXI=@localhost/owasp',
+  host: '127.0.0.1',
+  user: 'hacker',
+  password: 'aW50cnVkZXI=',
+  database: 'owasp',
+})
+
+server.get('/users', (request, reply) => {
+  server.mysql.query('SELECT * FROM users', (err, result) => {
+    reply.send(err || result)
+  })
 })
 
 server.listen({ port: 3000 }, (err, address) => {
